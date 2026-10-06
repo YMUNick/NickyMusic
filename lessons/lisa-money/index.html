@@ -52,7 +52,6 @@ main{max-width:1120px;margin:0 auto;padding:36px 18px 56px}
 /* ---------- stage ---------- */
 .stage{position:relative;aspect-ratio:16/9;width:100%;overflow:hidden;container-type:inline-size;color:var(--ivory);user-select:none;border:1px solid var(--gold);box-shadow:0 30px 80px -40px rgba(0,0,0,.8);
   background:radial-gradient(90% 120% at 78% 30%,var(--velvet2),var(--velvet) 62%)}
-.stage:fullscreen{width:min(100vw,177.78vh);height:auto;margin:auto}
 .stage::backdrop{background:#0B080D}
 /* faint manuscript staff behind everything */
 .stage::before{content:"";position:absolute;left:0;right:0;top:40%;height:9cqw;opacity:.07;pointer-events:none;
@@ -269,12 +268,19 @@ main{max-width:1120px;margin:0 auto;padding:36px 18px 56px}
 .sub-out{display:none}
 @media (max-width:640px){
   .subtitle{display:none}
-  .stage:fullscreen .subtitle{display:flex}
   .sub-out{display:flex;align-items:center;justify-content:center;margin:-1px 0 0;padding:10px 14px;min-height:calc(2 * 1.6em + 20px);
     font-size:16px;font-weight:600;line-height:1.6;text-align:center;letter-spacing:.02em;color:var(--ivory);
     background:var(--velvet2);border:1px solid var(--gold);border-top-color:transparent}
   .sub-out:empty::before{content:'按「開始上課」後，字幕會顯示在這裡';font-size:13px;font-weight:400;color:var(--muted)}
 }
+
+/* full screen: the whole player (stage + segments + buttons) goes full screen, so segments stay clickable */
+.player:fullscreen{display:flex;flex-direction:column;justify-content:center;padding:16px 24px;background:#0B080D;overflow:auto}
+.player:-webkit-full-screen{display:flex;flex-direction:column;justify-content:center;padding:16px 24px;background:#0B080D}
+.player:fullscreen > *{width:min(100%, calc((100vh - 170px) * 16 / 9));margin-left:auto;margin-right:auto}
+.player:-webkit-full-screen > *{width:min(100%, calc((100vh - 170px) * 16 / 9));margin-left:auto;margin-right:auto}
+.player::backdrop{background:#0B080D}
+.player:fullscreen .seg{font-size:14px;padding:10px 2px 11px}
 
 /* ---------- controls ---------- */
 .track{position:relative;display:flex;margin-top:14px;border-bottom:1px solid var(--rule)}
@@ -314,6 +320,7 @@ main{max-width:1120px;margin:0 auto;padding:36px 18px 56px}
     <p class="meta">LISA 演唱技巧解析，含暖聲與小測驗，約 7 分鐘。投影上課可按全螢幕，空白鍵暫停。</p>
   </header>
 
+  <div class="player" id="player">
   <div class="stage" id="stage">
     <div class="frame"></div>
     <div class="head" id="tag"></div>
@@ -344,6 +351,7 @@ main{max-width:1120px;margin:0 auto;padding:36px 18px 56px}
     <span class="time" id="time">0:00 / 0:00</span>
   </div>
   <p class="note" id="voiceNote"></p>
+  </div>
 </main>
 
 <script>
@@ -1093,10 +1101,16 @@ sndBtn.addEventListener('click',()=>{
   soundOn=!soundOn; sndBtn.textContent='音效：'+(soundOn?'開':'關');
   if(master) master.gain.setTargetAtTime(soundOn?0.9:0, actx.currentTime, 0.05);
 });
+const player=$('player');
+const fsEl = () => document.fullscreenElement || document.webkitFullscreenElement;
 fsBtn.addEventListener('click',()=>{
-  if(document.fullscreenElement) document.exitFullscreen();
-  else if(stage.requestFullscreen) stage.requestFullscreen().catch(()=>{});
+  if(fsEl()) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+  else if(player.requestFullscreen) player.requestFullscreen().catch(()=>{});
+  else if(player.webkitRequestFullscreen) player.webkitRequestFullscreen();
 });
+const syncFs = () => { fsBtn.textContent = fsEl() ? '離開全螢幕' : '全螢幕'; };
+document.addEventListener('fullscreenchange', syncFs);
+document.addEventListener('webkitfullscreenchange', syncFs);
 document.addEventListener('keydown',e=>{
   if(e.target.closest && e.target.closest('button')) return;
   if(e.code==='Space'){ e.preventDefault(); if(!started) begin(0); else playing?pause():resume(); }
