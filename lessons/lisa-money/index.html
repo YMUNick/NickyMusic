@@ -196,6 +196,9 @@ main{max-width:1120px;margin:0 auto;padding:36px 18px 56px}
 .v-warm{height:100%;display:grid;grid-template-columns:1fr 1.3fr;gap:4cqw;align-items:center}
 .v-warm.focus .checks li{opacity:.25}
 .v-warm.focus .checks li.on{opacity:1}
+.wjump{font:inherit;color:inherit;background:none;border:0;padding:0;margin:0;text-align:left;cursor:pointer;transition:color .2s}
+.wjump:hover{color:var(--brass)}
+.wjump:focus-visible{outline:2px solid var(--brass);outline-offset:4px}
 .checks li i{font-family:var(--didone);font-weight:400;font-size:1.9cqw;color:var(--smoke);margin-left:1cqw}
 .wpanel{position:relative;height:100%;border-left:1px solid rgba(201,164,92,.5)}
 .wv{position:absolute;inset:0 0 0 3cqw;display:flex;flex-direction:column;justify-content:center;opacity:0;transition:opacity .5s}
@@ -274,6 +277,7 @@ main{max-width:1120px;margin:0 auto;padding:36px 18px 56px}
 .controls button:hover:not(:disabled){border-color:var(--brass);color:var(--brass)}
 .controls button#playBtn{border-color:var(--brass);color:var(--brass)}
 .controls button#playBtn:hover:not(:disabled){background:var(--brass);color:var(--velvet)}
+.controls button[aria-pressed="true"]{border-color:var(--brass);color:var(--brass);background:rgba(201,164,92,.12)}
 .controls button:disabled{opacity:.4;cursor:not-allowed}
 .controls button:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
 .controls .time{margin-left:auto;font-family:var(--didone);font-variant-numeric:tabular-nums;color:var(--muted);font-size:15px}
@@ -322,6 +326,7 @@ main{max-width:1120px;margin:0 auto;padding:36px 18px 56px}
     <button id="nextBtn" type="button" disabled>下一段</button>
     <button id="narrBtn" type="button">旁白：開</button>
     <button id="sndBtn" type="button">音效：開</button>
+    <button id="loopBtn" type="button" aria-pressed="false">單段重複：關</button>
     <button id="fsBtn" type="button">全螢幕</button>
     <span class="time" id="time">0:00 / 0:00</span>
   </div>
@@ -350,14 +355,21 @@ const SCENES = [
     {t:'先記住一句話。'},
     {t:'這首歌不是跟著旋律唱，是跟著「咚」講話。', fx:'kick2'}
   ]},
-  {mode:'warm', name:'暖聲', no:'II', ti:'暖聲', term:'Riscaldamento', caps:[
+  /* warm-up is split into four segments so each exercise can be replayed on its own */
+  {mode:'warm', name:'暖聲 1', no:'II', ti:'暖聲 1／4', term:'Respiro', caps:[
     {t:'開始之前，先暖聲。站直，肩膀放鬆，下巴不要抬。', hl:-1},
     {t:'第一個，呼吸。跟著拍子吸四拍，再發「嘶」的聲音，慢慢吐八拍。', hl:0},
-    {t:'吸、吸、吸、吸，嘶⋯⋯', say:'來，跟著拍子。', hl:0, fx:'wbreath', fxAfter:true, hold:11.5},
+    {t:'吸、吸、吸、吸，嘶⋯⋯', say:'來，跟著拍子。', hl:0, fx:'wbreath', fxAfter:true, hold:11.5}
+  ]},
+  {mode:'warm', name:'暖聲 2', no:'II', ti:'暖聲 2／4', term:'Trillo labiale', caps:[
     {t:'第二個，唇顫音。嘴唇放鬆，像小朋友玩車子「噗嚕嚕」，跟著琴聲上下走。', hl:1},
-    {t:'噗嚕嚕～ 1 2 3 4 5 4 3 2 1', say:'來，跟著琴聲。', hl:1, fx:'trill', fxAfter:true, hold:11},
+    {t:'噗嚕嚕～ 1 2 3 4 5 4 3 2 1', say:'來，跟著琴聲。', hl:1, fx:'trill', fxAfter:true, hold:11}
+  ]},
+  {mode:'warm', name:'暖聲 3', no:'II', ti:'暖聲 3／4', term:'Bocca chiusa', caps:[
     {t:'第三個，哼鳴。閉上嘴巴「嗯」，手放胸口，感覺震動。這就是主歌要用的位置。', hl:2},
-    {t:'嗯～ 5、3、1', say:'嗯，跟著琴聲。', hl:2, fx:'hum', fxAfter:true, hold:10.5},
+    {t:'嗯～ 5、3、1', say:'嗯，跟著琴聲。', hl:2, fx:'hum', fxAfter:true, hold:10.5}
+  ]},
+  {mode:'warm', name:'暖聲 4', no:'II', ti:'暖聲 4／4', term:'Sirena', caps:[
     {t:'最後，滑音。用「嗚」從低滑到高，再滑回來，幫 bridge 的高音暖身。', hl:3},
     {t:'嗚～ 低、高、低', say:'嗚，從低到高。', hl:3, fx:'siren', fxAfter:true, hold:9.5},
     {t:'好，身體醒了，我們開始。', hl:-1}
@@ -496,7 +508,7 @@ const VIS = {
   outro: () => `<div class="v-title"><h2>跟著「咚」講話</h2><p>Fine.</p></div>`,
   warm: () => `<div class="v-warm" id="vroot">
       <ol class="checks">
-        ${[['呼吸','Respiro'],['唇顫音','Trillo labiale'],['哼鳴','Bocca chiusa'],['滑音','Sirena']].map((x,i)=>`<li data-i="${i}" data-n="${['i.','ii.','iii.','iv.'][i]}"><span>${x[0]}<i>${x[1]}</i></span></li>`).join('')}
+        ${[['呼吸','Respiro'],['唇顫音','Trillo labiale'],['哼鳴','Bocca chiusa'],['滑音','Sirena']].map((x,i)=>`<li data-i="${i}" data-n="${i+1}."><button type="button" class="wjump" data-warm="${i}" title="從第 ${i+1} 段開始">${x[0]}<i>${x[1]}</i></button></li>`).join('')}
       </ol>
       <div class="wpanel">
         <div class="wv" data-w="-1"><span class="it">Riscaldamento</span><span class="big">四個動作，<br>跟著做就好</span></div>
@@ -590,12 +602,12 @@ const sceneDur = SCENES.map((s,si)=>flat.filter(c=>c.si===si).reduce((a,c)=>a+c.
 const $ = id => document.getElementById(id);
 const stage=$('stage'), tagEl=$('tag'), ring=$('ring'), ringCore=$('ringCore'), visual=$('visual'), sub=$('subtitle');
 const gate=$('gate'), startBtn=$('startBtn'), gateNote=$('gateNote');
-const playBtn=$('playBtn'), prevBtn=$('prevBtn'), nextBtn=$('nextBtn'), narrBtn=$('narrBtn'), sndBtn=$('sndBtn'), fsBtn=$('fsBtn');
+const playBtn=$('playBtn'), prevBtn=$('prevBtn'), nextBtn=$('nextBtn'), narrBtn=$('narrBtn'), sndBtn=$('sndBtn'), fsBtn=$('fsBtn'), loopBtn=$('loopBtn');
 const track=$('track'), fill=$('fill'), timeEl=$('time'), voiceNote=$('voiceNote');
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 let idx=0, curScene=-1, playing=false, started=false, capStart=0, speechDone=true, curFx=null, fxFired=true, fxAt=0;
-let narrOn=true, soundOn=true;
+let narrOn=true, soundOn=true, loopOn=false;
 
 /* progress track */
 SCENES.forEach((s,si)=>{
@@ -829,6 +841,11 @@ function renderScene(si){
   if(s.mode==='quiz') resetQuiz();
   visual.innerHTML = VIS[s.mode]();
   if(s.mode==='quiz') wireQuiz($('vroot'));
+  if(s.mode==='warm') $('vroot').addEventListener('click', e=>{
+    const b=e.target.closest('[data-warm]'); if(!b) return;
+    const first=SCENES.findIndex(x=>x.mode==='warm');
+    playing=true; showCap(sceneStart[first + +b.dataset.warm]); syncButtons();
+  });
   ring.className = 'ring ' + (bare ? 'big' : 'small');
   segs.forEach((g,k)=>g.classList.toggle('on', k===si));
 }
@@ -967,7 +984,8 @@ function frame(){
     const fxDone = !c.fxAfter || (fxFired && el - fxAt >= (c.hold||0) - 1.2);
     if(c.wait && el >= c.dur && !waitSpeech){ /* hold here until they come back from the song */ }
     else if(el >= c.dur && !waitSpeech && fxDone){
-      if(idx < flat.length-1) showCap(idx+1);
+      if(loopOn && (idx===flat.length-1 || flat[idx+1].si!==c.si)) showCap(sceneStart[c.si]);   // repeat this segment
+      else if(idx < flat.length-1) showCap(idx+1);
       else finish();
     }
     const p = Math.min(total, cumBefore[idx] + Math.min(el, c.dur));
@@ -1010,6 +1028,9 @@ nextBtn.addEventListener('click',()=>jumpScene(1));
 narrBtn.addEventListener('click',()=>{
   narrOn=!narrOn; narrBtn.textContent='旁白：'+(narrOn?'開':'關');
   if(!narrOn){ stopSpeech(); speechDone=true; }
+});
+loopBtn.addEventListener('click',()=>{
+  loopOn=!loopOn; loopBtn.textContent='單段重複：'+(loopOn?'開':'關'); loopBtn.setAttribute('aria-pressed', loopOn);
 });
 sndBtn.addEventListener('click',()=>{
   soundOn=!soundOn; sndBtn.textContent='音效：'+(soundOn?'開':'關');
