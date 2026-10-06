@@ -362,6 +362,9 @@ const QUIZ = [
    why:['','','拍手落在第三拍，速度很快、聽起來卻很沉，這就是 half-time 的感覺。','']}
 ];
 
+/* spoken after a quiz answer (also used by tools/make-voice.mjs to pre-record every variant) */
+const feedback = (q, ok, ans) => (ok ? '答對了！' : `再想想。正確答案是${q.opts[ans]}。`) + q.why[ans];
+
 const SCENES = [
   {mode:'intro', name:'開場', no:'I', ti:'開場', term:'Introduzione', caps:[
     {t:'今天用幾分鐘，搞懂〈MONEY〉從主歌、副歌，到 bridge。'},
@@ -883,7 +886,7 @@ function answer(k, j){
   quizAns[k]=j; killFx(); fxFired=true;
   paintQ(k);
   const q=QUIZ[k], ans=quizPick[k].ans;
-  speak((j===ans ? '答對了！' : `再想想。正確答案是${q.opts[ans]}。`) + q.why[ans]);
+  speak(feedback(q, j===ans, ans));
   const nx=document.querySelector(`#vroot .qp[data-q="${k}"] .qnext`); if(nx) nx.focus();
 }
 function paintQ(k){
@@ -946,32 +949,61 @@ function applyCap(c){
 }
 
 /* ================= narration ================= */
+/* Each spoken line is a pre-recorded neural voice clip in voice/<hash>.mp3 (made by tools/make-voice.mjs).
+   If a clip is missing (e.g. the text was edited but not re-generated), fall back to the browser's own voice. */
+function voiceId(text){
+  let h=0x811c9dc5;
+  for(let i=0;i<text.length;i++){ h^=text.charCodeAt(i); h=Math.imul(h,0x01000193)>>>0; }
+  return h.toString(16).padStart(8,'0');
+}
+const clipUrl = text => 'voice/'+voiceId(text)+'.mp3';
+const vo = new Audio(); vo.preload='auto';
+const pre = new Audio(); pre.preload='auto';
+let voToken=0;
+
 let voice=null, curU=null;
 const hasSpeech = 'speechSynthesis' in window;
 function pickVoice(){
   if(!hasSpeech) return;
-  const vs = speechSynthesis.getVoices();
-  const zh = vs.filter(v=>/^zh/i.test(v.lang) && !/yue|HK/i.test(v.lang));
-  voice = zh.find(v=>/TW/i.test(v.lang)) || zh.find(v=>/CN/i.test(v.lang)) || zh[0] || null;
-  updateVoiceNote();
-}
-function updateVoiceNote(){
-  if(!hasSpeech || (!voice && started)){
-    voiceNote.textContent = '這台裝置找不到中文語音，所以只會顯示字幕和播放節奏。換用 Chrome 或 Safari 通常就有旁白。';
-  } else voiceNote.textContent = '';
+  const zh = speechSynthesis.getVoices().filter(v=>/^zh/i.test(v.lang) && !/yue|HK/i.test(v.lang));
+  /* prefer neural / higher-quality voices when the browser has them */
+  const rank = v => (/TW/i.test(v.lang)?4:0) + (/natural|online|neural/i.test(v.name)?8:0) + (/google/i.test(v.name)?6:0) + (/premium|enhanced/i.test(v.name)?6:0);
+  voice = zh.sort((x,y)=>rank(y)-rank(x))[0] || null;
 }
 if(hasSpeech){ pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
 
-function speak(text){
-  if(!narrOn || !voice){ speechDone=true; return; }
-  speechSynthesis.cancel();
+let fbToken=0;
+function ttsFallback(text, token){
+  if(token!==voToken || token===fbToken) return;   // both the error event and play() rejection land here
+  fbToken=token;
+  if(!voice){
+    speechDone=true; duck(false);
+    voiceNote.textContent = '旁白音檔載入失敗，這台裝置也沒有中文語音，所以只會顯示字幕和播放節奏。';
+    return;
+  }
   const u = new SpeechSynthesisUtterance(text);
-  u.voice = voice; u.lang = voice.lang; u.rate = 1.02;
+  u.voice = voice; u.lang = voice.lang; u.rate = 0.98;
   u.onend = u.onerror = () => { if(u===curU){ speechDone=true; duck(false); } };
-  curU = u; speechDone=false; duck(true);
-  speechSynthesis.speak(u);
+  curU = u; speechSynthesis.speak(u);
 }
-function stopSpeech(){ if(hasSpeech){ curU=null; speechSynthesis.cancel(); } duck(false); }
+function speak(text){
+  stopSpeech();
+  if(!narrOn){ speechDone=true; return; }
+  const token = ++voToken;
+  speechDone=false; duck(true);
+  vo.onended = () => { if(token===voToken){ speechDone=true; duck(false); } };
+  vo.onerror = () => ttsFallback(text, token);
+  vo.src = clipUrl(text);
+  const p = vo.play();
+  if(p && p.catch) p.catch(e => { if(e && e.name!=='AbortError') ttsFallback(text, token); });
+}
+function preload(text){ if(text){ pre.src = clipUrl(text); pre.load(); } }
+function stopSpeech(){
+  voToken++;
+  vo.onended = vo.onerror = null; vo.pause();
+  if(hasSpeech){ curU=null; speechSynthesis.cancel(); }
+  duck(false);
+}
 
 /* ================= playback ================= */
 function showCap(i, direct){
@@ -986,12 +1018,13 @@ function showCap(i, direct){
   if(fx && (!c.fxAfter || direct)){ startFx(fx); fxFired=true; } else killFx();
   capStart = performance.now();
   if(direct){ stopSpeech(); speechDone=true; } else speak(c.say || c.t);
+  const nx = flat[idx+1]; if(nx) preload(nx.say || nx.t);
 }
 function frame(){
   if(playing){
     const c = flat[idx];
     const el = (performance.now()-capStart)/1000;
-    const waitSpeech = narrOn && voice && !speechDone && el < c.dur*3;
+    const waitSpeech = narrOn && !speechDone && el < c.dur*3;
     if(c.fxAfter && !fxFired && el > 0.4 && !waitSpeech){ fxFired=true; fxAt=el; startFx(fxOf(c)); }
     /* an exercise keeps going for `hold` seconds after its sound starts, however long the narration took */
     const fxDone = !c.fxAfter || (fxFired && el - fxAt >= (c.hold||0) - 1.2);
