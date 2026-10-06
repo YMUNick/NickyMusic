@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NickyMusic｜用音樂學院的方式，學一首流行歌</title>
+<meta name="description" content="NickyMusic 聲樂工作坊：每一課拆解一首流行歌的結構、節奏、發聲與態度，附樂譜記號、節奏示範與旁白。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%F0%9F%8E%BC%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400;1,6..96,500&family=Noto+Serif+TC:wght@400;600;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --velvet:#1B1420; --velvet2:#2B1F32; --velvet3:#3A2A42;
+  --brass:#C9A45C; --ivory:#EDE6DA; --smoke:#A79CB1; --rule:rgba(201,164,92,.28); --hair:rgba(237,230,218,.14);
+  --serif:"Noto Serif TC","Songti TC","PMingLiU",serif;
+  --didone:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 72px)}
+body{margin:0;background:var(--velvet);color:var(--ivory);font-family:var(--serif);line-height:1.7;min-height:100vh}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+@media (max-width:640px){ .wrap{padding:0 18px} }
+
+/* ---------- top bar ---------- */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:rgba(27,20,32,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--hair)}
+.bar .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-family:var(--didone);font-style:italic;font-size:24px;text-decoration:none;letter-spacing:.01em}
+.logo b{font-style:normal;font-weight:600;color:var(--brass)}
+.nav{display:flex;gap:28px;font-size:14px;letter-spacing:.12em}
+.nav a{text-decoration:none;color:var(--smoke);transition:color .2s}
+.nav a:hover{color:var(--ivory)}
+a:focus-visible{outline:2px solid var(--brass);outline-offset:4px}
+@media (max-width:560px){ .nav{gap:16px;font-size:13px;letter-spacing:.06em} }
+
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--hair);
+  background:radial-gradient(70% 90% at 82% 40%,var(--velvet3),transparent 70%),radial-gradient(60% 80% at 10% 100%,var(--velvet2),transparent 70%)}
+.hero::before{content:"";position:absolute;left:0;right:0;top:56%;height:120px;opacity:.07;pointer-events:none;
+  background:repeating-linear-gradient(180deg,var(--ivory) 0 1px,transparent 1px 30px)}
+.hero .wrap{position:relative;display:grid;grid-template-columns:1.25fr 1fr;gap:40px;align-items:center;padding-top:96px;padding-bottom:104px}
+.eyebrow{font-family:var(--didone);font-style:italic;color:var(--brass);font-size:17px;margin:0 0 22px}
+.eyebrow::before{content:"";display:inline-block;width:40px;height:1px;background:var(--brass);vertical-align:middle;margin-right:14px}
+.hero h1{margin:0;font-weight:900;font-size:clamp(34px,5.4vw,64px);line-height:1.22;letter-spacing:.04em}
+.hero h1 em{font-style:normal;color:var(--brass)}
+.lede{margin:28px 0 40px;font-size:17px;color:var(--smoke);max-width:34em}
+.cta{display:inline-flex;align-items:center;gap:14px;padding:14px 30px;border:1px solid var(--brass);color:var(--brass);text-decoration:none;letter-spacing:.2em;font-size:15px;transition:background .3s,color .3s}
+.cta:hover{background:var(--brass);color:var(--velvet)}
+.cta span{font-family:var(--didone);font-style:italic;letter-spacing:0}
+.medal{justify-self:center;width:min(380px,100%);aspect-ratio:1;position:relative}
+.medal svg{width:100%;height:100%;overflow:visible}
+.medal .r1{fill:none;stroke:var(--brass);stroke-width:1}
+.medal .r2{fill:none;stroke:var(--brass);stroke-width:1;opacity:.45}
+.medal .g{fill:var(--brass);font-family:var(--serif);font-weight:900;font-size:96px;text-anchor:middle}
+.medal .rim{fill:var(--smoke);font-family:var(--didone);font-style:italic;font-size:15px;letter-spacing:3px}
+@media (prefers-reduced-motion: no-preference){
+  .medal .spin{transform-origin:200px 200px;animation:spin 60s linear infinite}
+  .medal .beat{transform-origin:200px 200px;animation:beat 1.714s ease-out infinite}
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes beat{0%,100%{transform:scale(1)}6%{transform:scale(1.05)}30%{transform:scale(1)}}
+@media (max-width:820px){
+  .hero .wrap{grid-template-columns:1fr;padding-top:64px;padding-bottom:72px}
+  .medal{width:min(260px,70%);order:-1}
+}
+
+/* ---------- section heads ---------- */
+section{padding:96px 0}
+.sh{display:grid;grid-template-columns:auto 1fr;gap:6px 28px;align-items:end;margin-bottom:48px;padding-bottom:20px;border-bottom:1px solid var(--rule)}
+.sh .it{font-family:var(--didone);font-style:italic;color:var(--brass);font-size:20px}
+.sh h2{margin:0;font-weight:900;font-size:clamp(26px,3.2vw,36px);letter-spacing:.06em;line-height:1.3}
+.sh p{grid-column:1/-1;margin:6px 0 0;color:var(--smoke);font-size:15px}
+
+/* ---------- repertoire ---------- */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:40px 32px}
+.card{display:block;text-decoration:none;color:inherit}
+.cover{position:relative;aspect-ratio:1;overflow:hidden;border:1px solid var(--rule);background:var(--velvet2)}
+.cover svg{width:100%;height:100%;display:block;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+a.card:hover .cover svg{transform:scale(1.04)}
+.cover .play{position:absolute;right:16px;bottom:16px;width:52px;height:52px;border-radius:50%;background:var(--brass);color:var(--velvet);display:grid;place-items:center;opacity:0;transform:translateY(8px);transition:all .35s}
+a.card:hover .play,a.card:focus-visible .play{opacity:1;transform:none}
+.card .info{padding-top:18px}
+.card .no{font-family:var(--didone);font-style:italic;color:var(--brass);font-size:15px}
+.card h3{margin:2px 0 0;font-family:var(--didone);font-weight:600;font-size:30px;letter-spacing:.04em;line-height:1.2}
+.card .by{font-size:15px;color:var(--smoke)}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.tags span{font-size:12px;letter-spacing:.08em;padding:3px 10px;border:1px solid var(--hair);color:var(--smoke)}
+.card.soon .cover{border-style:dashed;border-color:var(--hair);background:transparent;display:grid;place-items:center;text-align:center}
+.card.soon .cover p{margin:0;color:var(--smoke);font-size:15px}
+.card.soon .cover p i{display:block;font-family:var(--didone);font-size:44px;color:rgba(237,230,218,.2);margin-bottom:8px}
+.card.soon h3{color:var(--smoke)}
+
+/* ---------- method ---------- */
+.method{background:linear-gradient(180deg,transparent,rgba(43,31,50,.6));border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+.cols{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.col{padding:8px 32px 8px 0}
+.col + .col{padding-left:32px;border-left:1px solid var(--hair)}
+.col .n{font-family:var(--didone);font-style:italic;color:var(--brass);font-size:44px;line-height:1}
+.col h3{margin:18px 0 2px;font-size:22px;font-weight:900;letter-spacing:.06em}
+.col .term{font-family:var(--didone);font-style:italic;color:var(--smoke);font-size:15px}
+.col p{margin:14px 0 0;color:var(--smoke);font-size:15px}
+@media (max-width:820px){
+  .cols{grid-template-columns:1fr}
+  .col,.col + .col{padding:28px 0;border-left:0;border-top:1px solid var(--hair)}
+  .col:first-child{border-top:0;padding-top:0}
+}
+
+/* ---------- about ---------- */
+.about .wrap{display:grid;grid-template-columns:1fr 1.4fr;gap:56px;align-items:start}
+.quote{font-family:var(--didone);font-style:italic;font-size:clamp(24px,3vw,34px);line-height:1.35;color:var(--ivory);margin:0}
+.quote b{font-family:var(--serif);font-style:normal;font-weight:900;color:var(--brass)}
+.about p{margin:0 0 16px;color:var(--smoke)}
+@media (max-width:820px){ .about .wrap{grid-template-columns:1fr;gap:28px} }
+
+footer{border-top:1px solid var(--hair);padding:36px 0 48px;font-size:13px;color:var(--smoke)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-between}
+footer .logo{font-size:18px}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap">
+    <a class="logo" href="./">Nicky<b>Music</b></a>
+    <nav class="nav" aria-label="主選單">
+      <a href="#repertorio">曲目</a>
+      <a href="#metodo">教學方式</a>
+      <a href="#about">關於</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero" aria-labelledby="hero-title" style="padding:0">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">Vocal Workshop</p>
+        <h1 id="hero-title">用音樂學院的方式，<br>學一首<em>流行歌</em>。</h1>
+        <p class="lede">每一課拆解一首歌：結構、節奏、發聲、態度。用真正的樂譜記號講解，搭配節奏示範與旁白，適合上課投影，也適合自己在家練。</p>
+        <a class="cta" href="lessons/lisa-money/">開始第一課 <span>MONEY →</span></a>
+      </div>
+      <div class="medal" aria-hidden="true">
+        <svg viewBox="0 0 400 400">
+          <defs><path id="rimpath" d="M200,200 m-168,0 a168,168 0 1,1 336,0 a168,168 0 1,1 -336,0"/></defs>
+          <g class="spin"><text class="rim"><textPath href="#rimpath">PARLANDO  /  STACCATO  /  LEGATO  /  RESPIRO  /  ACCENTO  /  CRESCENDO  /  </textPath></text></g>
+          <g class="beat">
+            <circle class="r1" cx="200" cy="200" r="140"/>
+            <circle class="r2" cx="200" cy="200" r="122"/>
+            <text class="g" x="200" y="234">咚</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section id="repertorio" aria-labelledby="rep-title">
+    <div class="wrap">
+      <div class="sh">
+        <span class="it">Repertorio</span>
+        <h2 id="rep-title">曲目</h2>
+        <p>點封面進入課程。每一課約五分鐘，可以暫停、跳段落。</p>
+      </div>
+      <div class="grid">
+        <a class="card" href="lessons/lisa-money/" aria-label="第一課：LISA〈MONEY〉，從主歌到副歌">
+          <div class="cover">
+            <svg viewBox="0 0 400 400" aria-hidden="true">
+              <defs>
+                <radialGradient id="cv1" cx="72%" cy="30%" r="90%"><stop offset="0" stop-color="#3A2A42"/><stop offset=".7" stop-color="#1B1420"/></radialGradient>
+              </defs>
+              <rect width="400" height="400" fill="url(#cv1)"/>
+              <g stroke="#EDE6DA" stroke-opacity=".12">
+                <line x1="0" y1="250" x2="400" y2="250"/><line x1="0" y1="264" x2="400" y2="264"/><line x1="0" y1="278" x2="400" y2="278"/><line x1="0" y1="292" x2="400" y2="292"/><line x1="0" y1="306" x2="400" y2="306"/>
+              </g>
+              <circle cx="272" cy="132" r="92" fill="none" stroke="#C9A45C" stroke-width="1.2"/>
+              <circle cx="272" cy="132" r="78" fill="none" stroke="#C9A45C" stroke-opacity=".45"/>
+              <text x="272" y="164" text-anchor="middle" fill="#C9A45C" font-family="Noto Serif TC, serif" font-weight="900" font-size="88">咚</text>
+              <g fill="#EDE6DA">
+                <path d="M54 222 V206 H60 M92 222 V206 M130 222 V206" stroke="#EDE6DA" stroke-width="1.2" fill="none"/>
+                <text x="92" y="214" text-anchor="middle" font-family="Bodoni Moda, Didot, serif" font-style="italic" font-size="14">3</text>
+                <rect x="45" y="228" width="88" height="5"/>
+                <line x1="46" y1="232" x2="46" y2="276" stroke="#EDE6DA" stroke-width="1.6"/>
+                <line x1="89" y1="232" x2="89" y2="276" stroke="#EDE6DA" stroke-width="1.6"/>
+                <line x1="132" y1="232" x2="132" y2="276" stroke="#EDE6DA" stroke-width="1.6"/>
+                <ellipse cx="39" cy="278" rx="8" ry="5.5" transform="rotate(-20 39 278)" fill="#C9A45C"/>
+                <ellipse cx="82" cy="278" rx="8" ry="5.5" transform="rotate(-20 82 278)"/>
+                <ellipse cx="125" cy="278" rx="8" ry="5.5" transform="rotate(-20 125 278)"/>
+              </g>
+              <text x="32" y="56" fill="#C9A45C" font-family="Bodoni Moda, Didot, serif" font-style="italic" font-size="20">No. 01</text>
+              <text x="32" y="362" fill="#EDE6DA" font-family="Bodoni Moda, Didot, serif" font-weight="600" font-size="64" letter-spacing="4">MONEY</text>
+              <line x1="32" y1="378" x2="120" y2="378" stroke="#C9A45C"/>
+            </svg>
+            <span class="play" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M5 3 L15 9 L5 15 Z" fill="currentColor"/></svg></span>
+          </div>
+          <div class="info">
+            <span class="no">Lezione 01</span>
+            <h3>MONEY</h3>
+            <span class="by">LISA　從主歌到副歌，再到 bridge</span>
+            <div class="tags"><span>Trap</span><span>Hip-hop</span><span>說唱</span><span>約 5 分鐘</span></div>
+          </div>
+        </a>
+
+        <div class="card soon" aria-label="下一課籌備中">
+          <div class="cover"><p><i>No. 02</i>下一首，籌備中</p></div>
+          <div class="info">
+            <span class="no">Lezione 02</span>
+            <h3>Coming soon</h3>
+            <span class="by">敬請期待</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="method" id="metodo" aria-labelledby="met-title">
+    <div class="wrap">
+      <div class="sh">
+        <span class="it">Metodo</span>
+        <h2 id="met-title">教學方式</h2>
+        <p>每一首歌都用同樣的三步驟拆解。</p>
+      </div>
+      <div class="cols">
+        <div class="col">
+          <span class="n">i.</span>
+          <h3>聽懂結構</h3>
+          <span class="term">Forma</span>
+          <p>先搞清楚主歌、導歌、副歌、bridge 各自在做什麼，知道哪裡要講、哪裡要唱、能量往哪裡走。</p>
+        </div>
+        <div class="col">
+          <span class="n">ii.</span>
+          <h3>看懂記號</h3>
+          <span class="term">Notazione</span>
+          <p>三連音、重音、斷音、圓滑線、換氣記號，用真正的樂譜符號講節奏，搭配即時的節奏示範。</p>
+        </div>
+        <div class="col">
+          <span class="n">iii.</span>
+          <h3>唱出態度</h3>
+          <span class="term">Interpretazione</span>
+          <p>共鳴位置、音色切換、身體律動。技巧之外，最後要唱出這首歌該有的樣子。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="about" aria-labelledby="ab-title">
+    <div class="wrap">
+      <p class="quote" id="ab-title">不是跟著旋律唱，<br>是跟著<b>「咚」</b>講話。</p>
+      <div>
+        <p>NickyMusic 是一個聲樂工作坊的線上教室。我們把流行歌當成正式的作品來研究，用音樂學院上課的方式，一段一段拆給你聽。</p>
+        <p>課程頁面可以直接投影上課，有字幕、旁白和節奏示範，也可以隨時暫停、跳到想練的段落。</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="logo">Nicky<b>Music</b></span>
+    <span>曲目解析僅作教學用途，原曲版權屬於原權利人。</span>
+    <span>© 2026 NickyMusic</span>
+  </div>
+</footer>
+</body>
+</html>

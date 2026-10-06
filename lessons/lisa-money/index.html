@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>〈MONEY〉從主歌到副歌｜NickyMusic</title>
+<meta name="description" content="NickyMusic 第一課：LISA〈MONEY〉演唱技巧解析，從主歌、副歌到 bridge。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%F0%9F%8E%BC%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400;1,6..96,500&family=Noto+Serif+TC:wght@400;600;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --page:#ECE9EE; --ink:#1E1724; --muted:#6C6274; --rule:#CFC8D4;
+  --velvet:#1B1420; --velvet2:#2B1F32; --brass:#C9A45C; --ivory:#EDE6DA; --rose:#CF9187; --slate:#9DB0CC; --smoke:#988DA2;
+  --serif:"Noto Serif TC","Songti TC","PMingLiU",serif;
+  --didone:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --page:#100C13; --ink:#E8E2EA; --muted:#9A90A3; --rule:#2E2535; }
+}
+:root[data-theme="dark"]{ --page:#100C13; --ink:#E8E2EA; --muted:#9A90A3; --rule:#2E2535; }
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--page);color:var(--ink);font-family:var(--serif);line-height:1.6}
+main{max-width:1120px;margin:0 auto;padding:28px 18px 40px}
+
+/* ---------- page masthead ---------- */
+.mast{display:grid;grid-template-columns:1fr auto;align-items:end;gap:6px 24px;padding-bottom:14px;border-bottom:1px solid var(--rule);margin-bottom:18px}
+.mast .back{font-family:var(--didone);font-style:italic;color:var(--ink);text-decoration:underline;text-decoration-color:var(--brass);text-underline-offset:4px}
+.mast .back:hover{text-decoration:underline}
+.mast .back:focus-visible{outline:2px solid var(--brass);outline-offset:3px}
+.mast .sep{display:inline-block;width:24px;height:1px;background:var(--rule);vertical-align:middle;margin:0 10px}
+.mast .course{font-family:var(--didone);font-style:italic;font-size:15px;color:var(--muted);grid-column:1/-1}
+.mast h1{margin:0;font-weight:900;font-size:clamp(24px,3.6vw,38px);line-height:1.15;letter-spacing:.02em}
+.mast .meta{font-size:14px;color:var(--muted);text-align:right;max-width:30ch}
+@media (max-width:640px){ .mast{grid-template-columns:1fr} .mast .meta{text-align:left} }
+
+/* ---------- stage ---------- */
+.stage{position:relative;aspect-ratio:16/9;width:100%;overflow:hidden;container-type:inline-size;color:var(--ivory);user-select:none;
+  background:radial-gradient(90% 120% at 78% 30%,var(--velvet2),var(--velvet) 62%)}
+.stage:fullscreen{width:min(100vw,177.78vh);height:auto;margin:auto}
+.stage::backdrop{background:#0B080D}
+/* faint manuscript staff behind everything */
+.stage::before{content:"";position:absolute;left:0;right:0;top:40%;height:9cqw;opacity:.07;pointer-events:none;
+  background:repeating-linear-gradient(180deg,var(--ivory) 0 1px,transparent 1px 2.2cqw)}
+.frame{position:absolute;inset:2.2cqw;border:1px solid rgba(201,164,92,.28);pointer-events:none}
+
+.head{position:absolute;left:5cqw;top:4.2cqw;right:16cqw;z-index:2}
+.head .no{font-family:var(--didone);font-style:italic;font-size:2.4cqw;color:var(--brass);margin-right:1.4cqw}
+.head .ti{font-size:3cqw;font-weight:900;letter-spacing:.06em}
+.head .term{display:block;font-family:var(--didone);font-style:italic;font-size:2cqw;color:var(--smoke);margin-top:.2cqw}
+
+.visual{position:absolute;left:6cqw;right:6cqw;top:12.5cqw;bottom:12.5cqw}
+.subtitle{position:absolute;left:8cqw;right:8cqw;bottom:3.6cqw;min-height:6cqw;display:flex;align-items:center;justify-content:center;text-align:center;
+  font-size:2.75cqw;font-weight:600;line-height:1.45;letter-spacing:.03em;text-shadow:0 .2cqw 1.2cqw rgba(0,0,0,.55)}
+.subtitle::before{content:"";position:absolute;top:-1.2cqw;left:50%;width:6cqw;height:1px;background:var(--brass);transform:translateX(-50%);opacity:.7}
+
+/* the 咚 medallion */
+.ring{position:absolute;aspect-ratio:1;z-index:3;transition:all .8s cubic-bezier(.6,0,.2,1)}
+.ring.big{width:17cqw;left:calc(50% - 8.5cqw);top:9cqw}
+.ring.small{width:6.4cqw;left:calc(100% - 10.4cqw);top:4.2cqw}
+.ring-core{position:relative;width:100%;height:100%;border-radius:50%;border:1px solid var(--brass);display:grid;place-items:center;color:var(--brass);font-weight:900;background:radial-gradient(circle,rgba(201,164,92,.12),transparent 70%)}
+.ring-core::after{content:"";position:absolute;inset:8%;border-radius:50%;border:1px solid rgba(201,164,92,.45)}
+.ring.big .ring-core{font-size:6.6cqw}
+.ring.small .ring-core{font-size:2.6cqw}
+
+/* ---------- notation (shared) ---------- */
+.nota{width:100%;height:auto;display:block;overflow:visible}
+.nota .sl{stroke:var(--smoke);stroke-width:1;opacity:.6}
+.nota .st{stroke:var(--ivory);stroke-width:2}
+.nota .bm{fill:var(--ivory)}
+.nota .nh{fill:var(--ivory);opacity:.55;transition:fill .07s,opacity .07s}
+.nota .nh.on{fill:var(--brass);opacity:1}
+.nota .ac{stroke:var(--rose);stroke-width:2.4;fill:none;stroke-linejoin:round}
+.nota .sd{fill:var(--ivory)}
+.nota .slur{stroke:var(--slate);stroke-width:2.4;fill:none}
+.nota .br{stroke:var(--ivory);stroke-width:1.3;fill:none;opacity:.8}
+.nota .tn{fill:var(--ivory);font-family:var(--didone);font-style:italic;font-size:17px;text-anchor:middle}
+.nota .nl{fill:var(--brass);font-family:var(--serif);font-weight:900;font-size:17px;text-anchor:middle}
+.nota .bre{fill:var(--brass);font-family:var(--didone);font-size:50px;font-weight:600}
+.nota .pop{opacity:0}
+
+.rows{height:100%;display:flex;flex-direction:column;justify-content:center;gap:1.6cqw}
+.rows.focus .nrow{opacity:.25}
+.rows.focus .nrow.on{opacity:1}
+.nrow{display:grid;grid-template-columns:19cqw 1fr;align-items:center;gap:3cqw;transition:opacity .5s}
+.nrow .lb{text-align:right;border-right:1px solid rgba(201,164,92,.4);padding-right:2.4cqw}
+.nrow .lb b{display:block;font-size:2.9cqw;font-weight:900;letter-spacing:.05em}
+.nrow .lb i{font-family:var(--didone);font-size:1.9cqw;color:var(--smoke)}
+.nrow .sv{max-width:56cqw}
+.nrow .nota{height:12.5cqw;width:auto;max-width:100%}
+.vc .nota{height:12cqw;width:auto;max-width:100%}
+
+.notes{display:flex;gap:3cqw;justify-content:center;margin-top:.4cqw}
+.notes span{font-size:1.9cqw;color:var(--smoke);transition:color .4s}
+.notes span::before{content:attr(data-n);font-family:var(--didone);font-style:italic;color:var(--brass);margin-right:.6cqw}
+.notes span.on{color:var(--ivory)}
+
+/* intro / outro */
+.v-title{position:absolute;left:0;right:0;bottom:0;text-align:center}
+.v-title h2{margin:0;font-size:5.6cqw;font-weight:900;letter-spacing:.08em;line-height:1.2}
+.v-title p{margin:.8cqw 0 0;font-family:var(--didone);font-style:italic;font-size:2.3cqw;color:var(--smoke)}
+
+/* timbre */
+.v-trio{height:100%;display:grid;grid-template-columns:repeat(3,1fr);align-items:center}
+.tri{text-align:center;padding:0 2cqw;border-left:1px solid rgba(237,230,218,.14);transition:opacity .5s}
+.tri:first-child{border-left:0}
+.tri .gl{display:block;font-size:10cqw;font-weight:900;line-height:1;color:var(--c)}
+.tri .en{display:block;font-family:var(--didone);font-style:italic;font-size:2.4cqw;margin-top:1.4cqw}
+.tri .zh{display:block;font-size:1.9cqw;color:var(--smoke);margin-top:.3cqw}
+.v-trio.focus .tri{opacity:.22}
+.v-trio.focus .tri.on{opacity:1}
+
+/* half-time */
+.v-beat{height:100%;display:grid;grid-template-columns:repeat(4,1fr);align-items:center;padding-top:2cqw}
+.bt{position:relative;text-align:center}
+.bt .n{font-family:var(--didone);font-size:11cqw;line-height:1;color:rgba(237,230,218,.22);transition:color .1s}
+.bt.on .n{color:var(--ivory)}
+.bt .clap{position:absolute;left:50%;top:-3.2cqw;transform:translateX(-50%);font-size:2.2cqw;font-weight:900;color:var(--rose);opacity:.5;transition:opacity .4s}
+.v-beat.three .bt[data-b="2"] .clap{opacity:1}
+.v-beat.three .bt[data-b="2"] .n{text-decoration:underline;text-decoration-color:var(--rose);text-decoration-thickness:.25cqw;text-underline-offset:1.2cqw}
+
+/* breath sheet */
+.sheet{display:grid;grid-template-columns:19cqw 1fr;gap:3cqw;align-items:center}
+.sheet .lb{text-align:right;border-right:1px solid rgba(201,164,92,.4);padding-right:2.4cqw}
+.sheet .lb b{display:block;font-size:2.9cqw;font-weight:900}
+.sheet .lb i{font-family:var(--didone);font-size:1.9cqw;color:var(--smoke)}
+.lines{display:flex;flex-direction:column;gap:1.5cqw;max-width:52cqw}
+.ln{display:flex;align-items:center;gap:1.2cqw}
+.ln u{height:.35cqw;background:rgba(237,230,218,.35);text-decoration:none}
+.ln em{font-family:var(--didone);font-style:normal;font-weight:600;font-size:3.4cqw;line-height:.6;color:var(--brass)}
+
+/* crescendo */
+.v-cresc{height:100%;display:flex;flex-direction:column;justify-content:center;gap:2cqw}
+.v-cresc svg{width:100%;height:auto;display:block}
+.v-cresc .hp{stroke:var(--brass);stroke-width:2.2;fill:none}
+.v-cresc .hpfill{fill:rgba(201,164,92,.16)}
+.dyn{display:flex;justify-content:space-between;padding:0 1cqw}
+.dyn span{font-family:var(--didone);font-style:italic;font-weight:600;font-size:3.6cqw;color:rgba(237,230,218,.22);transition:color .5s}
+.dyn span.on{color:var(--ivory)}
+.ends{display:flex;justify-content:space-between;font-size:2.1cqw;color:var(--smoke);padding:0 1cqw}
+
+/* bridge */
+.v-bridge{height:100%;display:grid;grid-template-columns:1fr 1fr;gap:5cqw;align-items:center}
+.vc{transition:opacity .5s}
+.v-bridge.focus .vc{opacity:.22}
+.v-bridge.focus .vc.on{opacity:1}
+.vc h3{margin:0;font-size:3cqw;font-weight:900;letter-spacing:.05em}
+.vc .it{display:block;font-family:var(--didone);font-style:italic;font-size:2.1cqw;color:var(--smoke);margin-bottom:1.2cqw}
+.vc p{margin:1.4cqw 0 0;font-size:2cqw;color:var(--smoke)}
+
+/* form / recap */
+.v-form{width:100%;height:100%}
+.v-form .curve{fill:none;stroke:var(--brass);stroke-width:3;stroke-linecap:round;stroke-dasharray:1200;stroke-dashoffset:1200;animation:draw 2.4s ease-out forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.v-form .base{stroke:rgba(237,230,218,.3);stroke-width:1}
+.v-form .div{stroke:rgba(201,164,92,.35);stroke-width:1;stroke-dasharray:3 5}
+.v-form .zone{transition:opacity .5s}
+.v-form.focus .zone{opacity:.22}
+.v-form.focus .zone.on{opacity:1}
+.v-form .zl{fill:var(--brass);font-family:var(--didone);font-style:italic;font-size:22px;text-anchor:middle}
+.v-form .zt{fill:var(--ivory);font-family:var(--serif);font-weight:900;font-size:28px;text-anchor:middle}
+.v-form .zd{fill:var(--smoke);font-family:var(--serif);font-size:17px;text-anchor:middle}
+
+/* listen */
+.v-listen{height:100%;display:grid;grid-template-columns:1.3fr 1fr;gap:5cqw;align-items:center}
+.checks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2cqw}
+.checks li{display:grid;grid-template-columns:5cqw 1fr;align-items:baseline;font-size:2.4cqw;font-weight:600;transition:opacity .5s}
+.checks li::before{content:attr(data-n);font-family:var(--didone);font-style:italic;color:var(--brass);font-size:2.8cqw}
+.v-listen.focus .checks li{opacity:.25}
+.v-listen.focus .checks li.on{opacity:1}
+.listen-box{border-left:1px solid rgba(201,164,92,.5);padding:1cqw 0 1cqw 3cqw}
+.listen-box .it{font-family:var(--didone);font-style:italic;font-size:2.2cqw;color:var(--smoke);display:block}
+.listen-box p{margin:.4cqw 0 2cqw;font-size:2cqw}
+.listen-box a,.listen-box button{display:block;width:100%;text-align:center;font:inherit;font-size:2.2cqw;font-weight:600;letter-spacing:.06em;padding:1.1cqw 1.6cqw;text-decoration:none;cursor:pointer}
+.listen-box a{background:var(--brass);color:var(--velvet);border:1px solid var(--brass)}
+.listen-box button{margin-top:1.2cqw;background:transparent;color:var(--ivory);border:1px solid rgba(237,230,218,.5)}
+.listen-box button[hidden]{display:none}
+.listen-box a:focus-visible,.listen-box button:focus-visible{outline:2px solid var(--ivory);outline-offset:3px}
+
+/* gate */
+.gate{position:absolute;inset:0;z-index:6;display:grid;place-items:center;text-align:center;background:rgba(27,20,32,.86)}
+.gate[hidden]{display:none}
+.gate .it{display:block;font-family:var(--didone);font-style:italic;font-size:2.4cqw;color:var(--smoke);margin-bottom:2cqw}
+.gate button{font:inherit;font-size:2.4cqw;font-weight:600;letter-spacing:.2em;padding:1.3cqw 4.4cqw;border:1px solid var(--brass);background:transparent;color:var(--brass);cursor:pointer;transition:background .3s,color .3s}
+.gate button:hover{background:var(--brass);color:var(--velvet)}
+.gate button:focus-visible{outline:2px solid var(--ivory);outline-offset:4px}
+.gate p{margin:1.8cqw 0 0;font-size:1.8cqw;color:var(--smoke)}
+
+/* ---------- controls ---------- */
+.track{position:relative;display:flex;margin-top:14px;border-bottom:1px solid var(--rule)}
+.track .fill{position:absolute;left:0;bottom:-1px;height:2px;background:var(--brass);width:0;pointer-events:none}
+.seg{flex:none;border:0;background:transparent;color:var(--muted);font:inherit;font-size:12px;padding:8px 2px 9px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:left;border-left:1px solid var(--rule)}
+.seg:first-of-type{border-left:0}
+.seg.on{color:var(--ink);font-weight:600}
+.seg:focus-visible{outline:2px solid var(--brass);outline-offset:-2px}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:14px}
+.controls button{font:inherit;font-size:14px;letter-spacing:.04em;padding:7px 16px;border:1px solid var(--rule);background:transparent;color:var(--ink);cursor:pointer;border-radius:0}
+.controls button#playBtn{border-color:var(--ink)}
+.controls button:disabled{opacity:.4;cursor:not-allowed}
+.controls button:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
+.controls .time{margin-left:auto;font-family:var(--didone);font-variant-numeric:tabular-nums;color:var(--muted);font-size:15px}
+.note{margin-top:10px;font-size:13px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){ .ring{transition:none} .v-form .curve{animation:none;stroke-dashoffset:0} }
+</style>
+</head>
+<body>
+<main>
+  <header class="mast">
+    <span class="course"><a class="back" href="../../">← NickyMusic</a><span class="sep"></span>Lezione 01, Contemporary Hip-hop</span>
+    <h1>〈MONEY〉從主歌到副歌</h1>
+    <p class="meta">LISA 演唱技巧解析，約 5 分鐘。投影上課可按全螢幕，空白鍵暫停。</p>
+  </header>
+
+  <div class="stage" id="stage">
+    <div class="frame"></div>
+    <div class="head" id="tag"></div>
+    <div class="ring big" id="ring"><div class="ring-core" id="ringCore">咚</div></div>
+    <div class="visual" id="visual"></div>
+    <div class="subtitle" id="subtitle"></div>
+    <div class="gate" id="gate">
+      <div>
+        <span class="it">Lezione: LISA, MONEY</span>
+        <button id="startBtn" type="button">開始上課</button>
+        <p id="gateNote">建議打開聲音</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="track" id="track"><div class="fill" id="fill"></div></div>
+
+  <div class="controls">
+    <button id="playBtn" type="button" disabled>暫停</button>
+    <button id="prevBtn" type="button" disabled>上一段</button>
+    <button id="nextBtn" type="button" disabled>下一段</button>
+    <button id="narrBtn" type="button">旁白：開</button>
+    <button id="sndBtn" type="button">音效：開</button>
+    <button id="fsBtn" type="button">全螢幕</button>
+    <span class="time" id="time">0:00 / 0:00</span>
+  </div>
+  <p class="note" id="voiceNote"></p>
+</main>
+
+<script>
+(function(){
+/* ================= content ================= */
+const SCENES = [
+  {mode:'intro', name:'開場', no:'I', ti:'開場', term:'Introduzione', caps:[
+    {t:'今天用幾分鐘，搞懂〈MONEY〉從主歌、副歌，到 bridge。'},
+    {t:'先記住一句話。'},
+    {t:'這首歌不是跟著旋律唱，是跟著「咚」講話。', fx:'kick2'}
+  ]},
+  {mode:'trio', name:'伴奏', no:'II', ti:'伴奏的三種聲音', term:'Timbre: 808, hi-hat, clap', caps:[
+    {t:'這首歌的伴奏很空，只有三種聲音。', hl:-1},
+    {t:'第一個是「咚」，808 低音，很重、很低。', hl:0, fx:'kick2'},
+    {t:'第二個是「嚓嚓嚓」，hi-hat，很快、很碎。', hl:1, fx:'hats'},
+    {t:'第三個是「啪」，拍手聲，告訴你重拍在哪。', hl:2, fx:'clap'},
+    {t:'其他幾乎什麼都沒有，所以你的聲音很重要。', hl:-1}
+  ]},
+  {mode:'grid', name:'節奏', no:'III', ti:'慢慢的大拍子', term:'Half-time feel, 140 BPM', caps:[
+    {t:'現在把三種聲音放在一起聽。', fx:'loop'},
+    {t:'速度很快，但大拍子隔很開，聽起來反而很沉。', fx:'loop'},
+    {t:'跟著點頭數：一、二、三、四。', fx:'loop'},
+    {t:'拍手落在第三拍，這就是 trap 的慢律動。', fx:'loop', three:true}
+  ]},
+  {mode:'verse', name:'主歌', no:'IV', ti:'主歌', term:'Verse, parlando', caps:[
+    {t:'主歌也叫 verse，是用「講」的，不是用唱的。'},
+    {t:'聲音放低、放鬆，像跟朋友聊天。手放胸口，有震動就對了。', notes:[0,1]},
+    {t:'節奏是重點。很多人會唸成平均的，像這樣。', row:'even', fx:'even'},
+    {t:'但 trap 常用三連音，一拍分成三下，像這樣。', row:'trip', fx:'trip'},
+    {t:'跟著唸一次：噠噠噠、噠噠噠。', row:'trip', fx:'trip'},
+    {t:'最後，字尾要收乾淨，t、d、s、k 都不能吃掉。', notes:[2]}
+  ]},
+  {mode:'breath', name:'換氣', no:'V', ti:'換氣位置', term:'Respiro', caps:[
+    {t:'主歌的詞很密，最常遇到的問題是：唱到一半沒氣。'},
+    {t:'秘訣是偷氣：「咚」打下去的那一瞬間，快速吸一小口。', fx:'breath', row:'breath'},
+    {t:'不用吸很飽，一小口就夠，吸完馬上接下一句。', fx:'breath', row:'breath'},
+    {t:'上課前，先在歌詞上做記號，標好在哪裡換氣。', row:'sheet'},
+    {t:'不要邊唱邊找氣，找到的時候通常已經來不及了。', row:'sheet'}
+  ]},
+  {mode:'accent', name:'重音', no:'VI', ti:'重音有強有弱', term:'Accento', caps:[
+    {t:'再來是重音。不是每個字都一樣大聲。'},
+    {t:'如果每個字都一樣用力，聽起來會很平、很趕，像這樣。', row:'flat', fx:'flat'},
+    {t:'落在拍點上的字要重、要清楚，中間的字輕輕帶過，像這樣。', row:'acc', fx:'acc'},
+    {t:'有強有弱，flow 才會有彈性，唱起來也比較不累。', row:'acc', fx:'acc'}
+  ]},
+  {mode:'pre', name:'導歌', no:'VII', ti:'導歌', term:'Pre-chorus, crescendo', caps:[
+    {t:'接著是導歌，也叫 pre-chorus，像在爬樓梯。', fill:1},
+    {t:'從講話慢慢變成有一點音高，半唱半說。', fill:2},
+    {t:'能量一點一點往上推，準備衝進副歌。', fill:4},
+    {t:'不要一開始就用力，力氣留給後面。', fill:5}
+  ]},
+  {mode:'hook', name:'副歌', no:'VIII', ti:'副歌', term:'Hook, staccato', caps:[
+    {t:'副歌也叫 hook，是整首最好記的地方。'},
+    {t:'句子很短、一直重複，每個字要短短的、很俐落。'},
+    {t:'重點是準：字要剛好打在拍子上，不能拖。', fx:'loop'},
+    {t:'想像你在拍桌子：打、打、打！', fx:'loop'},
+    {t:'態度要有自信，像整個舞台都是你的。', fx:'loop'}
+  ]},
+  {mode:'bridge', name:'Bridge', no:'IX', ti:'Bridge 音色切換', term:'Legato e sotto voce', caps:[
+    {t:'副歌之後會進到 bridge，這是整首唯一真正要「唱」的地方。', hl:-1},
+    {t:'前面都是酷酷的說唱：硬、短，聲音在胸口。', hl:0, fx:'kick2'},
+    {t:'到了 bridge，要換成輕柔、帶一點氣的聲音，往上飄。', hl:1, fx:'soft'},
+    {t:'句子要唱得連起來，不要一個字一個字斷開。', hl:1, fx:'soft'},
+    {t:'想像從在舞台上耍酷，變成在耳邊輕輕說話。', hl:1},
+    {t:'唱完 bridge，再切回最後的副歌，能量重新衝上來。', hl:-1, fx:'loop'}
+  ]},
+  {mode:'recap', name:'回顧', no:'X', ti:'曲式回顧', term:'Forma', caps:[
+    {t:'我們整理一下。', hl:-1},
+    {t:'主歌：像講話，抓三連音，「咚」的時候偷氣，有強有弱。', hl:0},
+    {t:'導歌：慢慢加上音高，能量往上推。', hl:1},
+    {t:'副歌：短、準、有態度，打在拍上。', hl:2},
+    {t:'Bridge：換成輕柔氣聲，句子連起來。', hl:3}
+  ]},
+  {mode:'listen', name:'聽原曲', no:'XI', ti:'對照原曲副歌', term:'Ascolto', caps:[
+    {t:'最後，我們來聽原曲的副歌，把剛剛學的對起來。', hl:-1},
+    {t:'第一，聽「咚」打下去的時候，字是不是剛好跟著出來。', hl:0},
+    {t:'第二，副歌的字是不是短短的、一顆一顆，很俐落。', hl:1},
+    {t:'第三，跟著點頭數一二三四，拍手是不是落在第三拍。', hl:2},
+    {t:'按「打開原曲」去聽副歌，聽完再按「繼續」。', hl:-1, wait:true}
+  ]},
+  {mode:'outro', name:'結語', no:'XII', ti:'結語', term:'Fine', caps:[
+    {t:'最後再說一次：跟著「咚」講話。', fx:'kick2'},
+    {t:'下一堂課，我們一起把它唱出來！'}
+  ]}
+];
+
+/* ---------- notation helper ---------- */
+function staff(o){
+  const n=o.n, gap=o.gap||64, x0=36, W=x0*2+gap*(n-1), H=136, y=84, top=30;
+  let s=`<svg class="nota" viewBox="0 0 ${W} ${H}" data-row="${o.row||''}" aria-hidden="true">`;
+  s+=`<line class="sl" x1="0" y1="${y}" x2="${W}" y2="${y}"/>`;
+  if(o.beam){
+    for(let g=0; g<n; g+=o.beam){
+      const a=x0+g*gap+8, b=x0+Math.min(n-1,g+o.beam-1)*gap+8;
+      s+=`<rect class="bm" x="${a-1}" y="${top}" width="${b-a+2}" height="6"/>`;
+      if(o.double) s+=`<rect class="bm" x="${a-1}" y="${top+11}" width="${b-a+2}" height="6"/>`;
+    }
+  }
+  if(o.triplet){
+    for(let g=0; g<n; g+=3){
+      const a=x0+g*gap+8, b=x0+Math.min(n-1,g+2)*gap+8, m=(a+b)/2;
+      s+=`<path class="br" d="M${a} 22 V15 H${m-12} M${m+12} 15 H${b} V22"/><text class="tn" x="${m}" y="21">3</text>`;
+    }
+  }
+  for(let i=0;i<n;i++){
+    const x=x0+i*gap;
+    s+=`<line class="st" x1="${x+8}" y1="${y-3}" x2="${x+8}" y2="${top}"/>`;
+    s+=`<ellipse class="nh" data-k="${i}" cx="${x}" cy="${y}" rx="10" ry="7" transform="rotate(-20 ${x} ${y})"/>`;
+    if(o.accents && o.accents.includes(i)) s+=`<path class="ac" d="M${x-9} ${y+15} L${x+9} ${y+20} L${x-9} ${y+25}"/>`;
+    if(o.staccato) s+=`<circle class="sd" cx="${x}" cy="${y+19}" r="3"/>`;
+    if(o.labels && o.labels[i]) s+=`<text class="nl" x="${x}" y="${y+46}">${o.labels[i]}</text>`;
+    if(o.pop) s+=`<text class="nl pop" data-p="${i}" x="${x}" y="${y+48}">打</text>`;
+  }
+  if(o.slur){ const a=x0, b=x0+(n-1)*gap; s+=`<path class="slur" d="M${a-4} ${y+16} Q ${(a+b)/2} ${y+50} ${b+4} ${y+16}"/>`; }
+  if(o.breath!=null){ const x=x0+o.breath*gap; s+=`<text class="bre" x="${x-6}" y="${top-2}">’</text>`; }
+  return s+'</svg>';
+}
+const nrow = (row, zh, it, svg) => `<div class="nrow" data-row="${row}"><div class="lb"><b>${zh}</b><i>${it}</i></div><div class="sv">${svg}</div></div>`;
+
+const VIS = {
+  intro: () => `<div class="v-title"><h2>從主歌到副歌</h2><p>LISA, MONEY: a study in parlando</p></div>`,
+  outro: () => `<div class="v-title"><h2>跟著「咚」講話</h2><p>Fine.</p></div>`,
+  trio: () => `<div class="v-trio" id="vroot">${[['咚','808 Bass','低音，很重很低','var(--brass)'],['嚓','Hi-hat','很快很碎','var(--slate)'],['啪','Clap','標出重拍','var(--rose)']].map((x,i)=>`<div class="tri" data-i="${i}" style="--c:${x[3]}"><span class="gl">${x[0]}</span><span class="en">${x[1]}</span><span class="zh">${x[2]}</span></div>`).join('')}</div>`,
+  grid: () => `<div class="v-beat" id="vroot">${[1,2,3,4].map(n=>`<div class="bt" data-b="${n-1}">${n===3?'<span class="clap">啪</span>':''}<span class="n">${n}</span></div>`).join('')}</div>`,
+  verse: () => `<div class="rows" id="vroot">
+      ${nrow('even','平均','non così', staff({n:4,gap:96,beam:4,double:true,row:'even'}))}
+      ${nrow('trip','三連音','così', staff({n:3,gap:144,beam:3,triplet:true,row:'trip'}))}
+      <div class="notes">${['放低放鬆','手放胸口','字尾要收'].map((c,i)=>`<span data-i="${i}" data-n="${['i.','ii.','iii.'][i]}">${c}</span>`).join('')}</div>
+    </div>`,
+  breath: () => `<div class="rows" id="vroot">
+      ${nrow('breath','偷氣','respiro sul colpo', staff({n:8,gap:56,beam:2,row:'breath',labels:['咚'],breath:0.5}))}
+      <div class="nrow sheet" data-row="sheet"><div class="lb"><b>歌詞本</b><i>segni di respiro</i></div>
+        <div class="lines">
+          <div class="ln"><u style="width:30%"></u><em>’</em><u style="width:42%"></u><em>’</em></div>
+          <div class="ln"><u style="width:52%"></u><em>’</em><u style="width:26%"></u></div>
+          <div class="ln"><u style="width:22%"></u><em>’</em><u style="width:48%"></u><em>’</em></div>
+        </div></div>
+    </div>`,
+  accent: () => `<div class="rows" id="vroot">
+      ${nrow('flat','一樣大聲','senza accento', staff({n:8,gap:56,beam:2,row:'flat'}))}
+      ${nrow('acc','有強有弱','con accento', staff({n:8,gap:56,beam:2,row:'acc',accents:[0,2,4,6]}))}
+    </div>`,
+  pre: () => `<div class="v-cresc" id="vroot">
+      <svg viewBox="0 0 800 120" aria-hidden="true">
+        <defs><clipPath id="cl"><rect id="clipr" x="0" y="0" width="0" height="120"/></clipPath></defs>
+        <polygon class="hpfill" points="20,60 780,14 780,106" clip-path="url(#cl)"/>
+        <path class="hp" d="M780 14 L20 60 L780 106"/>
+      </svg>
+      <div class="dyn">${['p','mp','mf','f','ff'].map((d,i)=>`<span data-n="${i+1}">${d}</span>`).join('')}</div>
+      <div class="ends"><span>講</span><span>唱</span></div>
+    </div>`,
+  hook: () => `<div class="rows" id="vroot">${nrow('hook','副歌','staccato, a tempo', staff({n:4,gap:110,staccato:true,pop:true,row:'hook'}))}</div>`,
+  bridge: () => `<div class="v-bridge" id="vroot">
+      <div class="vc" data-i="0"><h3>前面：說唱</h3><span class="it">parlando, staccato</span>${staff({n:4,staccato:true})}<p>硬、短，聲音在胸口</p></div>
+      <div class="vc" data-i="1"><h3>Bridge：唱</h3><span class="it">legato, sotto voce</span>${staff({n:4,slur:true})}<p>輕、柔、帶氣，句子連起來</p></div>
+    </div>`,
+  recap: () => `<svg class="v-form" id="vroot" viewBox="0 0 800 300" role="img" aria-label="主歌、導歌、副歌、Bridge 的能量曲線">
+      <line class="base" x1="20" y1="200" x2="780" y2="200"/>
+      <line class="div" x1="210" y1="20" x2="210" y2="200"/><line class="div" x1="400" y1="20" x2="400" y2="200"/><line class="div" x1="590" y1="20" x2="590" y2="200"/>
+      ${[['Verse','主歌','像講話、偷氣',115],['Pre-chorus','導歌','加音高、往上推',305],['Hook','副歌','短、準、有態度',495],['Bridge','Bridge','輕、柔、帶氣',685]].map((z,i)=>`<g class="zone" data-i="${i}"><text class="zl" x="${z[3]}" y="234">${z[0]}</text><text class="zt" x="${z[3]}" y="268">${z[1]}</text><text class="zd" x="${z[3]}" y="294">${z[2]}</text></g>`).join('')}
+      <path class="curve" d="M30 172 L190 166 C240 160 300 96 400 74 L590 54 C630 54 640 140 690 140 L770 138"/>
+    </svg>`,
+  listen: () => `<div class="v-listen" id="vroot">
+      <ol class="checks">
+        <li data-i="0" data-n="i.">「咚」打下去，字有沒有跟著出來</li>
+        <li data-i="1" data-n="ii.">副歌的字是不是短短的、很俐落</li>
+        <li data-i="2" data-n="iii.">點頭數 1234，拍手在不在第 3 拍</li>
+      </ol>
+      <div class="listen-box">
+        <span class="it">Ascolto guidato</span>
+        <p>原曲在 YouTube 播放，聽副歌那段就好</p>
+        <a id="openSong" href="https://www.youtube.com/results?search_query=LISA+MONEY+EXCLUSIVE+PERFORMANCE+VIDEO" target="_blank" rel="noopener">打開原曲</a>
+        <button id="contBtn" type="button" hidden>聽完了，繼續</button>
+      </div>
+    </div>`
+};
+
+/* ================= timeline ================= */
+const flat = [];
+SCENES.forEach((s,si)=>s.caps.forEach((c,ci)=>{
+  const len = [...c.t].length;
+  flat.push(Object.assign({}, c, {si, ci, dur: Math.max(3, len*0.22 + 1.1)}));
+}));
+const cumBefore = []; let total = 0;
+flat.forEach(c=>{ cumBefore.push(total); total += c.dur; });
+const sceneStart = SCENES.map((s,si)=>flat.findIndex(c=>c.si===si));
+const sceneDur = SCENES.map((s,si)=>flat.filter(c=>c.si===si).reduce((a,c)=>a+c.dur,0));
+
+const $ = id => document.getElementById(id);
+const stage=$('stage'), tagEl=$('tag'), ring=$('ring'), ringCore=$('ringCore'), visual=$('visual'), sub=$('subtitle');
+const gate=$('gate'), startBtn=$('startBtn'), gateNote=$('gateNote');
+const playBtn=$('playBtn'), prevBtn=$('prevBtn'), nextBtn=$('nextBtn'), narrBtn=$('narrBtn'), sndBtn=$('sndBtn'), fsBtn=$('fsBtn');
+const track=$('track'), fill=$('fill'), timeEl=$('time'), voiceNote=$('voiceNote');
+const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+let idx=0, curScene=-1, playing=false, started=false, capStart=0, speechDone=true, curFx=null;
+let narrOn=true, soundOn=true;
+
+/* progress track */
+SCENES.forEach((s,si)=>{
+  const b=document.createElement('button');
+  b.className='seg'; b.type='button'; b.textContent=s.name;
+  b.style.width=(sceneDur[si]/total*100)+'%';
+  b.addEventListener('click',()=>{ if(!started) begin(sceneStart[si]); else { playing=true; showCap(sceneStart[si]); syncButtons(); } });
+  track.appendChild(b);
+});
+const segs=[...track.querySelectorAll('.seg')];
+
+function fmt(s){ s=Math.max(0,Math.round(s)); return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); }
+timeEl.textContent = '0:00 / '+fmt(total);
+
+/* ================= audio ================= */
+let actx=null, master=null, bus=null, noiseBuf=null;
+const live=[], timers=[]; let seqId=null;
+
+function initAudio(){
+  if(actx) return;
+  const AC = window.AudioContext || window.webkitAudioContext;
+  if(!AC) return;
+  actx = new AC();
+  master = actx.createGain(); master.gain.value = soundOn ? 0.9 : 0; master.connect(actx.destination);
+  bus = actx.createGain(); bus.gain.value = 1; bus.connect(master);
+  noiseBuf = actx.createBuffer(1, actx.sampleRate*0.5, actx.sampleRate);
+  const d = noiseBuf.getChannelData(0); for(let i=0;i<d.length;i++) d[i]=Math.random()*2-1;
+}
+function at(time, fn){ const ms = Math.max(0,(time-actx.currentTime)*1000); timers.push(setTimeout(fn, ms)); }
+function kick(t){
+  const o=actx.createOscillator(), g=actx.createGain();
+  o.type='sine';
+  o.frequency.setValueAtTime(150,t); o.frequency.exponentialRampToValueAtTime(44,t+0.12);
+  g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(1,t+0.006); g.gain.exponentialRampToValueAtTime(0.001,t+1.1);
+  o.connect(g); g.connect(bus); o.start(t); o.stop(t+1.15); live.push(o);
+  at(t,()=>onEvent('kick'));
+}
+function noise(t, type, freq, vol, decay){
+  const s=actx.createBufferSource(), f=actx.createBiquadFilter(), g=actx.createGain();
+  s.buffer=noiseBuf; f.type=type; f.frequency.value=freq;
+  g.gain.setValueAtTime(vol,t); g.gain.exponentialRampToValueAtTime(0.001,t+decay);
+  s.connect(f); f.connect(g); g.connect(bus); s.start(t); s.stop(t+decay+0.02); live.push(s);
+}
+function hat(t, v){ noise(t,'highpass',7500,v,0.045); at(t,()=>onEvent('hat')); }
+function clap(t){ noise(t,'bandpass',1400,0.6,0.02); noise(t+0.012,'bandpass',1400,0.6,0.02); noise(t+0.024,'bandpass',1300,0.7,0.16); at(t,()=>onEvent('clap')); }
+
+function syl(t, v){
+  const o=actx.createOscillator(), g=actx.createGain();
+  o.type='triangle'; o.frequency.setValueAtTime(330,t); o.frequency.exponentialRampToValueAtTime(260,t+0.07);
+  g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(v,t+0.008); g.gain.exponentialRampToValueAtTime(0.001,t+0.1);
+  o.connect(g); g.connect(bus); o.start(t); o.stop(t+0.12); live.push(o);
+}
+function inhale(t){
+  const s=actx.createBufferSource(), f=actx.createBiquadFilter(), g=actx.createGain();
+  s.buffer=noiseBuf; f.type='bandpass'; f.frequency.value=2200; f.Q.value=0.8;
+  g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(0.22,t+0.12); g.gain.exponentialRampToValueAtTime(0.001,t+0.24);
+  s.connect(f); f.connect(g); g.connect(bus); s.start(t); s.stop(t+0.26); live.push(s);
+}
+function softNote(t, freq, len){
+  [['sine',1,0.22],['triangle',2,0.04]].forEach(([type,mul,v])=>{
+    const o=actx.createOscillator(), g=actx.createGain();
+    o.type=type; o.frequency.value=freq*mul;
+    g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(v,t+0.3); g.gain.setValueAtTime(v,t+len-0.2); g.gain.exponentialRampToValueAtTime(0.0008,t+len+0.5);
+    o.connect(g); g.connect(bus); o.start(t); o.stop(t+len+0.55); live.push(o);
+  });
+}
+function run(stepDur, steps, fn){
+  let next = actx.currentTime + 0.08, i = 0;
+  const tick = () => {
+    while(next < actx.currentTime + 0.2 && i < steps){ fn(i,next); i++; next += stepDur; }
+    if(i >= steps){ clearInterval(seqId); seqId=null; }
+  };
+  seqId = setInterval(tick, 25); tick();
+}
+function killFx(){
+  live.forEach(s=>{ try{ s.stop(); }catch(e){} }); live.length=0;
+  timers.forEach(clearTimeout); timers.length=0;
+  if(seqId){ clearInterval(seqId); seqId=null; }
+  curFx=null;
+}
+const S16 = 60/140/4;      // 16th note at 140 BPM
+const S3  = 60/140/3;      // triplet
+function startFx(fx){
+  if(!actx || !fx) return;
+  if(fx===curFx && (fx==='loop'||fx==='breath')) return;   // keep the groove going across captions
+  killFx(); curFx=fx;
+  const t0 = actx.currentTime + 0.12;
+  if(fx==='kick2'){ kick(t0); kick(t0+0.5); }
+  else if(fx==='hats'){ run(S16, 20, (i,t)=>hat(t, i%2?0.14:0.24)); }
+  else if(fx==='clap'){ clap(t0); clap(t0+0.86); }
+  else if(fx==='loop'){
+    run(S16, Infinity, (i,t)=>{
+      const s=i%16, bar=Math.floor(i/16);
+      if(s===0||s===6||s===10) kick(t);
+      if(s===8) clap(t);
+      const roll = bar%2===1 && s>=12;
+      if(roll || s%2===0) hat(t, roll?0.13:0.2);
+      if(s%4===0){ const b=s/4; at(t,()=>onBeat(b)); }
+    });
+  }
+  else if(fx==='breath'){
+    run(S16, Infinity, (i,t)=>{
+      const s=i%16;
+      if(s===0){ kick(t); inhale(t+0.02); }
+      if(s%2===0){ const k=s/2; if(k>0) syl(t,0.22); at(t,()=>onCell(k)); }
+    });
+  }
+  else if(fx==='flat'){ run(S16*2, 16, (i,t)=>{ syl(t,0.4); if(i%8===0) kick(t); at(t,()=>onDot('flat', i%8)); }); }
+  else if(fx==='acc'){ run(S16*2, 16, (i,t)=>{ syl(t, i%2===0?0.55:0.09); if(i%8===0) kick(t); at(t,()=>onDot('acc', i%8)); }); }
+  else if(fx==='soft'){ [[440,0],[523.25,0.85],[587.33,1.7],[523.25,2.55]].forEach(([f,d])=>softNote(t0+d,f,1.0)); }
+  else if(fx==='even'){ run(S16, 32, (i,t)=>{ hat(t,0.3); if(i%8===0) kick(t); at(t,()=>onDot('even', i%4)); }); }
+  else if(fx==='trip'){ run(S3, 24, (i,t)=>{ hat(t,0.3); if(i%6===0) kick(t); at(t,()=>onDot('trip', i%3)); }); }
+}
+function duck(on){ if(bus) bus.gain.setTargetAtTime(on?0.5:1, actx.currentTime, 0.08); }
+
+/* ================= visual reactions ================= */
+function pulseRing(){
+  ringCore.animate(
+    [{transform:'scale(1)',boxShadow:'0 0 0 0 rgba(201,164,92,0)'},
+     {transform:`scale(${reduced?1.02:1.07})`,boxShadow:'0 0 0 1cqw rgba(201,164,92,.18)',offset:.15},
+     {transform:'scale(1)',boxShadow:'0 0 0 2.4cqw rgba(201,164,92,0)'}],
+    {duration:520, easing:'ease-out'});
+}
+function flash(el){ if(el) el.animate([{transform:'translateY(0)'},{transform:'translateY(-0.6cqw)',offset:.2},{transform:'translateY(0)'}],{duration:280,easing:'ease-out'}); }
+function onEvent(kind){
+  if(kind==='kick') pulseRing();
+  const root=$('vroot'); if(!root || curScene<0) return;
+  if(SCENES[curScene].mode==='trio'){
+    const i = kind==='kick'?0:kind==='hat'?1:2;
+    flash(root.querySelector(`.tri[data-i="${i}"] .gl`));
+  }
+}
+function onBeat(b){
+  const root=$('vroot'); if(!root) return;
+  const mode=SCENES[curScene].mode;
+  if(mode==='grid'){ root.querySelectorAll('.bt').forEach(c=>c.classList.toggle('on', +c.dataset.b===b)); }
+  if(mode==='hook'){
+    onDot('hook', b);
+    const p=root.querySelector(`.pop[data-p="${b}"]`);
+    if(p) p.animate([{opacity:0,transform:'translateY(6px)'},{opacity:1,transform:'translateY(0)',offset:.25},{opacity:0,transform:'translateY(0)'}],{duration:420,easing:'ease-out'});
+  }
+}
+function onDot(row, i){
+  const root=$('vroot'); if(!root) return;
+  const svg=root.querySelector(`.nota[data-row="${row}"]`); if(!svg) return;
+  svg.querySelectorAll('.nh').forEach(d=>d.classList.toggle('on', +d.dataset.k===i));
+}
+function onCell(k){
+  if(curScene<0 || SCENES[curScene].mode!=='breath') return;
+  onDot('breath', k);
+  if(k===0){ const b=$('vroot').querySelector('.bre'); if(b) b.animate([{opacity:.4},{opacity:1,offset:.2},{opacity:.4}],{duration:420}); }
+}
+
+/* ================= scene rendering ================= */
+function renderScene(si){
+  curScene=si;
+  const s=SCENES[si];
+  const bare = s.mode==='intro'||s.mode==='outro';
+  tagEl.innerHTML = bare ? '' : `<span class="no">${s.no}.</span><span class="ti">${s.ti}</span><span class="term">${s.term}</span>`;
+  visual.innerHTML = VIS[s.mode]();
+  ring.className = 'ring ' + (bare ? 'big' : 'small');
+  segs.forEach((g,k)=>g.classList.toggle('on', k===si));
+}
+function focusRows(root, row){
+  root.classList.toggle('focus', !!row);
+  root.querySelectorAll('.nrow').forEach(r=>r.classList.toggle('on', r.dataset.row===row));
+}
+function applyCap(c){
+  const root=$('vroot'); if(!root) return;
+  const mode=SCENES[c.si].mode;
+  if(mode==='trio' || mode==='bridge' || mode==='recap' || mode==='listen'){
+    root.classList.toggle('focus', c.hl>=0);
+    root.querySelectorAll('[data-i]').forEach(el=>{ if(el.closest('#vroot')===root && !el.matches('.notes span')) el.classList.toggle('on', +el.dataset.i===c.hl); });
+  }
+  if(mode==='grid'){ root.classList.toggle('three', !!c.three); }
+  if(mode==='verse' || mode==='accent' || mode==='breath'){
+    focusRows(root, c.row);
+    root.querySelectorAll('.notes span').forEach(sp=>sp.classList.toggle('on', (c.notes||[]).includes(+sp.dataset.i)));
+  }
+  if(mode==='pre'){
+    const r=$('clipr'); const lvl=c.fill||0;
+    if(r){ const w=20+lvl/5*760; r.setAttribute('width', w); r.style.transition='width .9s ease'; r.style.width=w+'px'; }
+    root.querySelectorAll('.dyn span').forEach(sp=>sp.classList.toggle('on', +sp.dataset.n<=lvl));
+  }
+  if(mode==='listen'){
+    const cont=$('contBtn'); if(cont){ cont.hidden=!c.wait; cont.onclick=()=>{ playing=true; showCap(idx+1); syncButtons(); }; }
+    const open=$('openSong'); if(open){ open.onclick=()=>{ if(c.wait && $('contBtn')) $('contBtn').hidden=false; pause(); }; }
+  }
+}
+
+/* ================= narration ================= */
+let voice=null, curU=null;
+const hasSpeech = 'speechSynthesis' in window;
+function pickVoice(){
+  if(!hasSpeech) return;
+  const vs = speechSynthesis.getVoices();
+  const zh = vs.filter(v=>/^zh/i.test(v.lang) && !/yue|HK/i.test(v.lang));
+  voice = zh.find(v=>/TW/i.test(v.lang)) || zh.find(v=>/CN/i.test(v.lang)) || zh[0] || null;
+  updateVoiceNote();
+}
+function updateVoiceNote(){
+  if(!hasSpeech || (!voice && started)){
+    voiceNote.textContent = '這台裝置找不到中文語音，所以只會顯示字幕和播放節奏。換用 Chrome 或 Safari 通常就有旁白。';
+  } else voiceNote.textContent = '';
+}
+if(hasSpeech){ pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+
+function speak(text){
+  if(!narrOn || !voice){ speechDone=true; return; }
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.voice = voice; u.lang = voice.lang; u.rate = 1.02;
+  u.onend = u.onerror = () => { if(u===curU){ speechDone=true; duck(false); } };
+  curU = u; speechDone=false; duck(true);
+  speechSynthesis.speak(u);
+}
+function stopSpeech(){ if(hasSpeech){ curU=null; speechSynthesis.cancel(); } duck(false); }
+
+/* ================= playback ================= */
+function showCap(i){
+  idx = Math.max(0, Math.min(flat.length-1, i));
+  const c = flat[idx];
+  if(c.si !== curScene) renderScene(c.si);
+  applyCap(c);
+  sub.innerHTML = '<span></span>'; sub.firstChild.textContent = c.t;
+  if(c.fx) startFx(c.fx); else killFx();
+  if(!c.fx || c.fx!=='loop'){ /* reset beat highlights outside loops */ }
+  capStart = performance.now();
+  speak(c.t);
+}
+function frame(){
+  if(playing){
+    const c = flat[idx];
+    const el = (performance.now()-capStart)/1000;
+    const waitSpeech = narrOn && voice && !speechDone && el < c.dur*3;
+    if(c.wait && el >= c.dur && !waitSpeech){ /* hold here until they come back from the song */ }
+    else if(el >= c.dur && !waitSpeech){
+      if(idx < flat.length-1) showCap(idx+1);
+      else finish();
+    }
+    const p = Math.min(total, cumBefore[idx] + Math.min(el, c.dur));
+    fill.style.width = (p/total*100)+'%';
+    timeEl.textContent = fmt(p)+' / '+fmt(total);
+  }
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+
+function begin(at){
+  started=true; gate.hidden=true;
+  initAudio(); if(actx && actx.state==='suspended') actx.resume();
+  pickVoice();
+  playing=true; curScene=-1;
+  showCap(at||0);
+  syncButtons();
+}
+function finish(){
+  playing=false; killFx(); stopSpeech();
+  fill.style.width='100%'; timeEl.textContent = fmt(total)+' / '+fmt(total);
+  startBtn.textContent='再看一次'; gateNote.textContent='播完了'; gate.hidden=false;
+  started=false; syncButtons();
+}
+function pause(){ playing=false; killFx(); stopSpeech(); syncButtons(); }
+function resume(){ if(actx && actx.state==='suspended') actx.resume(); playing=true; showCap(idx); syncButtons(); }
+function jumpScene(dir){
+  const target = Math.max(0, Math.min(SCENES.length-1, flat[idx].si + dir));
+  playing=true; showCap(sceneStart[target]); syncButtons();
+}
+function syncButtons(){
+  [playBtn,prevBtn,nextBtn].forEach(b=>b.disabled=!started);
+  playBtn.textContent = playing ? '暫停' : '繼續';
+}
+
+startBtn.addEventListener('click',()=>begin(0));
+playBtn.addEventListener('click',()=> playing ? pause() : resume());
+prevBtn.addEventListener('click',()=>jumpScene(-1));
+nextBtn.addEventListener('click',()=>jumpScene(1));
+narrBtn.addEventListener('click',()=>{
+  narrOn=!narrOn; narrBtn.textContent='旁白：'+(narrOn?'開':'關');
+  if(!narrOn){ stopSpeech(); speechDone=true; }
+});
+sndBtn.addEventListener('click',()=>{
+  soundOn=!soundOn; sndBtn.textContent='音效：'+(soundOn?'開':'關');
+  if(master) master.gain.setTargetAtTime(soundOn?0.9:0, actx.currentTime, 0.05);
+});
+fsBtn.addEventListener('click',()=>{
+  if(document.fullscreenElement) document.exitFullscreen();
+  else if(stage.requestFullscreen) stage.requestFullscreen().catch(()=>{});
+});
+document.addEventListener('keydown',e=>{
+  if(e.target.closest && e.target.closest('button')) return;
+  if(e.code==='Space'){ e.preventDefault(); if(!started) begin(0); else playing?pause():resume(); }
+  if(e.code==='ArrowRight' && started) jumpScene(1);
+  if(e.code==='ArrowLeft' && started) jumpScene(-1);
+});
+
+/* first frame before play */
+renderScene(0); applyCap(flat[0]); sub.innerHTML='';
+})();
+
+</script>
+</body>
+</html>
