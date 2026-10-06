@@ -614,7 +614,7 @@ SCENES.forEach((s,si)=>{
   const b=document.createElement('button');
   b.className='seg'; b.type='button'; b.textContent=s.name;
   b.style.width=(sceneDur[si]/total*100)+'%';
-  b.addEventListener('click',()=>{ if(!started) begin(sceneStart[si]); else { playing=true; showCap(sceneStart[si]); syncButtons(); } });
+  b.addEventListener('click',()=>goScene(si));
   track.appendChild(b);
 });
 const segs=[...track.querySelectorAll('.seg')];
@@ -844,7 +844,7 @@ function renderScene(si){
   if(s.mode==='warm') $('vroot').addEventListener('click', e=>{
     const b=e.target.closest('[data-warm]'); if(!b) return;
     const first=SCENES.findIndex(x=>x.mode==='warm');
-    playing=true; showCap(sceneStart[first + +b.dataset.warm]); syncButtons();
+    goScene(first + +b.dataset.warm);
   });
   ring.className = 'ring ' + (bare ? 'big' : 'small');
   segs.forEach((g,k)=>g.classList.toggle('on', k===si));
@@ -961,7 +961,7 @@ function speak(text){
 function stopSpeech(){ if(hasSpeech){ curU=null; speechSynthesis.cancel(); } duck(false); }
 
 /* ================= playback ================= */
-function showCap(i){
+function showCap(i, direct){
   idx = Math.max(0, Math.min(flat.length-1, i));
   const c = flat[idx];
   if(c.si !== curScene) renderScene(c.si);
@@ -970,9 +970,9 @@ function showCap(i){
   /* fxAfter: exercises and quiz clips wait for the narration to finish, so voice and sound don't overlap */
   fxFired = false; fxAt = 0;
   const fx = fxOf(c);
-  if(fx && !c.fxAfter){ startFx(fx); fxFired=true; } else killFx();
+  if(fx && (!c.fxAfter || direct)){ startFx(fx); fxFired=true; } else killFx();
   capStart = performance.now();
-  speak(c.say || c.t);
+  if(direct){ stopSpeech(); speechDone=true; } else speak(c.say || c.t);
 }
 function frame(){
   if(playing){
@@ -984,7 +984,7 @@ function frame(){
     const fxDone = !c.fxAfter || (fxFired && el - fxAt >= (c.hold||0) - 1.2);
     if(c.wait && el >= c.dur && !waitSpeech){ /* hold here until they come back from the song */ }
     else if(el >= c.dur && !waitSpeech && fxDone){
-      if(loopOn && (idx===flat.length-1 || flat[idx+1].si!==c.si)) showCap(sceneStart[c.si]);   // repeat this segment
+      if(loopOn && (idx===flat.length-1 || flat[idx+1].si!==c.si)) { const k=entryOf(c.si); showCap(k ?? sceneStart[c.si], k!=null); }   // repeat this segment
       else if(idx < flat.length-1) showCap(idx+1);
       else finish();
     }
@@ -996,12 +996,23 @@ function frame(){
 }
 requestAnimationFrame(frame);
 
-function begin(at){
+/* picking a warm-up segment (or repeating one) skips the spoken instructions and starts the exercise music right away */
+function entryOf(si){
+  if(SCENES[si].mode!=='warm') return null;
+  const k=flat.findIndex(c=>c.si===si && c.fxAfter);
+  return k<0 ? null : k;
+}
+function goScene(si){
+  const k=entryOf(si), at = k ?? sceneStart[si];
+  if(!started) begin(at, k!=null);
+  else { playing=true; showCap(at, k!=null); syncButtons(); }
+}
+function begin(at, direct){
   started=true; gate.hidden=true;
   initAudio(); if(actx && actx.state==='suspended') actx.resume();
   pickVoice();
   playing=true; curScene=-1;
-  showCap(at||0);
+  showCap(at||0, direct);
   syncButtons();
 }
 function finish(){
