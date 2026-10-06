@@ -265,6 +265,17 @@ main{max-width:1120px;margin:0 auto;padding:36px 18px 56px}
 .gate button:focus-visible{outline:2px solid var(--ivory);outline-offset:4px}
 .gate p{margin:1.8cqw 0 0;font-size:1.8cqw;color:var(--smoke)}
 
+/* phone: the in-stage subtitle is too small to read, so show it below the stage instead */
+.sub-out{display:none}
+@media (max-width:640px){
+  .subtitle{display:none}
+  .stage:fullscreen .subtitle{display:flex}
+  .sub-out{display:flex;align-items:center;justify-content:center;margin:-1px 0 0;padding:10px 14px;min-height:calc(2 * 1.6em + 20px);
+    font-size:16px;font-weight:600;line-height:1.6;text-align:center;letter-spacing:.02em;color:var(--ivory);
+    background:var(--velvet2);border:1px solid var(--gold);border-top-color:transparent}
+  .sub-out:empty::before{content:'按「開始上課」後，字幕會顯示在這裡';font-size:13px;font-weight:400;color:var(--muted)}
+}
+
 /* ---------- controls ---------- */
 .track{position:relative;display:flex;margin-top:14px;border-bottom:1px solid var(--rule)}
 .track .fill{position:absolute;left:0;bottom:-1px;height:2px;background:var(--brass);width:0;pointer-events:none}
@@ -317,6 +328,8 @@ main{max-width:1120px;margin:0 auto;padding:36px 18px 56px}
       </div>
     </div>
   </div>
+
+  <p class="sub-out" id="subOut" aria-live="polite"></p>
 
   <div class="track" id="track"><div class="fill" id="fill"></div></div>
 
@@ -603,7 +616,7 @@ const $ = id => document.getElementById(id);
 const stage=$('stage'), tagEl=$('tag'), ring=$('ring'), ringCore=$('ringCore'), visual=$('visual'), sub=$('subtitle');
 const gate=$('gate'), startBtn=$('startBtn'), gateNote=$('gateNote');
 const playBtn=$('playBtn'), prevBtn=$('prevBtn'), nextBtn=$('nextBtn'), narrBtn=$('narrBtn'), sndBtn=$('sndBtn'), fsBtn=$('fsBtn'), loopBtn=$('loopBtn');
-const track=$('track'), fill=$('fill'), timeEl=$('time'), voiceNote=$('voiceNote');
+const subOut=$('subOut'), track=$('track'), fill=$('fill'), timeEl=$('time'), voiceNote=$('voiceNote');
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 let idx=0, curScene=-1, playing=false, started=false, capStart=0, speechDone=true, curFx=null, fxFired=true, fxAt=0;
@@ -966,7 +979,7 @@ function showCap(i, direct){
   const c = flat[idx];
   if(c.si !== curScene) renderScene(c.si);
   applyCap(c);
-  sub.innerHTML = '<span></span>'; sub.firstChild.textContent = c.t;
+  sub.innerHTML = '<span></span>'; sub.firstChild.textContent = c.t; subOut.textContent = c.t;
   /* fxAfter: exercises and quiz clips wait for the narration to finish, so voice and sound don't overlap */
   fxFired = false; fxAt = 0;
   const fx = fxOf(c);
