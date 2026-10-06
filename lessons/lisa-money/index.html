@@ -264,6 +264,18 @@ main{max-width:1120px;margin:0 auto;padding:36px 18px 56px}
 .gate button:focus-visible{outline:2px solid var(--ivory);outline-offset:4px}
 .gate p{margin:1.8cqw 0 0;font-size:1.8cqw;color:var(--smoke)}
 
+/* phone: segment bar scrolls sideways with full names instead of squeezing 17 segments into one row */
+@media (max-width:640px){
+  .track{overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;-webkit-overflow-scrolling:touch;
+    -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent)}
+  .track::-webkit-scrollbar{display:none}
+  .track.end{-webkit-mask-image:none;mask-image:none}
+  .track .fill{display:none}
+  .track .seg{width:auto!important;padding:11px 14px;font-size:14px;overflow:visible}
+  .track .seg.done{color:var(--ink);box-shadow:inset 0 -2px 0 rgba(201,164,92,.35)}
+  .track .seg.on{color:var(--brass);box-shadow:inset 0 -2px 0 var(--brass)}
+}
+
 /* phone: the in-stage subtitle is too small to read, so show it below the stage instead */
 .sub-out{display:none}
 @media (max-width:640px){
@@ -642,6 +654,9 @@ SCENES.forEach((s,si)=>{
   track.appendChild(b);
 });
 const segs=[...track.querySelectorAll('.seg')];
+/* drop the right-edge fade once the bar is scrolled to its end */
+const trackEnd = () => track.classList.toggle('end', track.scrollLeft + track.clientWidth >= track.scrollWidth - 2);
+track.addEventListener('scroll', trackEnd, {passive:true}); window.addEventListener('resize', trackEnd);
 
 function fmt(s){ s=Math.max(0,Math.round(s)); return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); }
 timeEl.textContent = '0:00 / '+fmt(total);
@@ -871,7 +886,12 @@ function renderScene(si){
     goScene(first + +b.dataset.warm);
   });
   ring.className = 'ring ' + (bare ? 'big' : 'small');
-  segs.forEach((g,k)=>g.classList.toggle('on', k===si));
+  segs.forEach((g,k)=>{ g.classList.toggle('on', k===si); g.classList.toggle('done', k<si); });
+  /* phone: the segment bar scrolls sideways, keep the current segment in view */
+  if(track.scrollWidth > track.clientWidth){
+    const g=segs[si];
+    track.scrollTo({left: g.offsetLeft - (track.clientWidth - g.offsetWidth)/2, behavior: reduced ? 'auto' : 'smooth'});
+  }
 }
 
 /* ================= quiz ================= */
